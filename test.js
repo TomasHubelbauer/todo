@@ -5,6 +5,7 @@ void async function () {
   const expected = [
     'Allow configuring this through the CLI',
     'Skip binary files by text/blob detection or CLI ignore list or both',
+    'Extract out to a `node-cli-call` module for reuse',
     'Do something',
     'Do something else',
     'Do a thing',
