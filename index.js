@@ -39,13 +39,23 @@ async function* walk(/** @type {string} */ directoryPath = '.') {
 }
 
 void async function () {
-  if (path.normalize(path.dirname(import.meta.url.slice('file:///'.length))) === process.argv[1]) {
+  const url = import.meta.url;
+  const argv1 = process.argv[1];
+
+  // Uncomment these values to test whether calling as an executable works
+  // const url = 'file:///C:/Users/TomasHubelbauer/AppData/Roaming/npm-cache/_npx/14128/node_modules/todo/index.js';
+  // const argv1 = 'C:\\Users\\TomasHubelbauer\\AppData\\Roaming\\npm-cache\\_npx\\14128\\node_modules\\todo\\index.js';
+
+  const normalizedFileName = path.normalize(url.slice('file:///'.length));
+  const normalizedDirectoryName = path.dirname(normalizedFileName);
+
+  if (normalizedDirectoryName === argv1 || normalizedFileName === argv1) {
     for await (const item of todo()) {
       console.log(item);
     }
   }
   else {
     // TODO: Remove after the above is verified to work with `npx` and `npm i -g`
-    console.log(import.meta.url, process.argv);
+    console.log({ url, normalizedDirectoryName, normalizedFileName, argv1 });
   }
 }()
