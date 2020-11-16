@@ -1,5 +1,7 @@
 # To-Do
 
+[![](https://github.com/tomashubelbauer/todo/workflows/github-actions/badge.svg)](https://github.com/TomasHubelbauer/todo/actions)
+
 A simple utility to print code to-do comments starting with `// TODO:`.
 
 ## Installation
