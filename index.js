@@ -54,8 +54,4 @@ void async function () {
       console.log(item);
     }
   }
-  else {
-    // TODO: Remove after the above is verified to work with `npx` and `npm i -g`
-    console.log({ url, normalizedDirectoryName, normalizedFileName, argv1 });
-  }
 }()

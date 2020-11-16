@@ -5,7 +5,6 @@ void async function () {
   const expected = [
     'Allow configuring this through the CLI',
     'Skip binary files by text/blob detection or CLI ignore list or both',
-    'Remove after the above is verified to work with `npx` and `npm i -g`',
     'Do something',
     'Do something else',
     'Do a thing',
