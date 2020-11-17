@@ -23,18 +23,13 @@ A simple utility to print code to-do comments starting with `// TODO:`.
 
 ### To-Do
 
-#### Recognize multi-line comments
+#### Recognize multi-line comments where the to-do is not on the first line
 
 ```js
 /*
  * TODO: Recognize stuff like this to some degree of usefulness
  */
 ```
-
-#### Recognize CSS code comments
-
-This should be covered by the JS multi-line comments, but tracking just in case.
-Add a test for this, too.
 
 #### Recognize mutli-line single-line to-do comments
 
@@ -66,28 +61,10 @@ text/blob differentiation which is imperfect.
 
 I'd rather avoid it but it's not a complete non-option.
 
-#### Read `readme.me` for *To-Do* section and list sub-headings
-
-To return results from a MarkDown document like this one.
-
-#### List unchecked MarkDown checkboxen as to-do items
-
-Will have to be careful about stuff like fenced code blocks with false positives
-but generally that's an edge case.
-
 #### Allow ignoring specific lines
 
-This should enable weeding out any false positives we encounted.
+This should enable weeding out any false positives we encounter.
 
 #### Warn on unused ignore rules (maybe opt-in)
 
 This should highlight ignore rules which are no longer needed.
-
-#### Display file paths and line numbers for each to-do
-
-Update the return value to be an asynchronous iterator of an object like this:
-
-- `text` (`string`)
-- `path` (`string`)
-- `name` (`string`)
-- `line` (`string`)

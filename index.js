@@ -4,35 +4,63 @@ import fs from 'fs';
 import path from 'path';
 
 // TODO: Allow configuring this through the CLI
-const ignoredDirectoryNames = ['.git', 'node_modules'];
+const ignoredNames = ['.git', 'node_modules'];
+
+const threshold = 60;
 
 export default async function* todo() {
   for await (const filePath of walk()) {
+    let level;
+
     // TODO: Skip binary files by text/blob detection or CLI ignore list or both
     const text = await fs.promises.readFile(filePath, 'utf-8');
-    const lines = text.split('\n').map(line => line.trim());
-    for (const line of lines) {
+    const lines = text.split(/\r?\n/g);
+    for (let index = 0; index < lines.length; index++) {
+      const line = lines[index];
 
-      if (!line.startsWith('// TODO: ')) {
+      // Recognize comments which are detectable from a single line
+      const regex = /^\s*((\/\/ TODO:|# TODO:|- \[ \]) (?<text1>.*?)|\/\* TODO: (?<text2>.*?) \*\/)$/;
+      const match = regex.exec(line);
+      if (match) {
+        yield { path: filePath, line: index + 1, text: match.groups.text1 || match.groups.text2 };
         continue;
       }
 
-      yield line.slice('// TODO: '.length);
+      if (path.extname(filePath) === '.md') {
+        if (level) {
+          if (line.startsWith('#'.repeat(level + 1) + ' ')) {
+            yield { path: filePath, line: index + 1, text: line.slice(level + 1) };
+          }
+          else if (line.startsWith('#'.repeat(level) + ' ')) {
+            level = undefined;
+          }
+        }
+        else {
+          // Recognize a To-Do header in a MarkDown document and remember its level
+          const regex = /^(?<heading>#{2,4}) To-Do$/;
+          const match = regex.exec(line);
+          if (match) {
+            level = match.groups.heading.length;
+          }
+        }
+      }
+
+      // TODO: Support comments with continuations as per the readme
     }
   }
 }
 
 async function* walk(/** @type {string} */ directoryPath = '.') {
   for (const entry of await fs.promises.readdir(directoryPath, { withFileTypes: true })) {
+    if (ignoredNames.includes(entry.name)) {
+      continue;
+    }
+
     const entryPath = path.join(directoryPath, entry.name);
     if (entry.isFile()) {
       yield entryPath;
     }
     else if (entry.isDirectory()) {
-      if (ignoredDirectoryNames.includes(entry.name)) {
-        continue;
-      }
-
       yield* walk(entryPath);
     }
   }
@@ -52,7 +80,8 @@ void async function () {
 
   if (normalizedDirectoryName === argv1 || normalizedFileName === argv1) {
     for await (const item of todo()) {
-      console.log(item);
+      const text = item.text.length > threshold ? item.text.slice(0, threshold) + '…' : item.text;
+      console.log(`./${item.path}:${item.line}`, text);
     }
   }
 }()
