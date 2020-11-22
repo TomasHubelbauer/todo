@@ -67,7 +67,7 @@ async function* walk(/** @type {string} */ directoryPath = '.') {
   }
 }
 
-// TODO: Extract out to a `node-cli-call` module for reuse
+// TODO: Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716
 void async function () {
   const url = import.meta.url;
   const argv1 = process.argv[1];
