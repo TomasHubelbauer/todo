@@ -69,8 +69,10 @@ async function* walk(/** @type {string} */ directoryPath = '.') {
 
 // TODO: Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716
 void async function () {
+  console.log('TODO', process.cwd());
   const url = import.meta.url;
   const argv1 = process.argv[1];
+  console.log({ url, argv1 });
 
   // Uncomment these values to test whether calling as an executable works
   // const url = 'file:///C:/Users/TomasHubelbauer/AppData/Roaming/npm-cache/_npx/14128/node_modules/todo/index.js';
