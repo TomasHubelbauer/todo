@@ -71,19 +71,15 @@ async function* walk(/** @type {string} */ directoryPath = '.') {
 void async function () {
   const url = import.meta.url;
   
-  // Resolve symlink `/usr/local/bin/todo` to `/usr/local/lib/node_modules/todo/index.js` if needed
-  const argv1 = path.normalize(await fs.promises.realpath(process.argv[1]));
-
-  // Uncomment these values to test whether calling as an executable works
-  // const url = 'file:///C:/Users/TomasHubelbauer/AppData/Roaming/npm-cache/_npx/14128/node_modules/todo/index.js';
-  // const argv1 = 'C:\\Users\\TomasHubelbauer\\AppData\\Roaming\\npm-cache\\_npx\\14128\\node_modules\\todo\\index.js';
-
+  // Resolve symlink `/usr/local/bin/todo` to `/usr/local/lib/node_modules/todo/index.js` on Linux
+  // Trim off leading `/` on Linux (`file:///usr/…` - `/` is cut from URL but present in `argv[1]`)
+  const argv1 = path.normalize(await fs.promises.realpath(process.argv[1])).replace(/^\//, '');
   const normalizedFileName = path.normalize(url.slice('file:///'.length));
   const normalizedDirectoryName = path.dirname(normalizedFileName);
   
   console.log({ argv1, normalizedFileName, normalizedDirectoryName });
 
-  if (normalizedDirectoryName === argv1 || normalizedFileName === argv1) {
+  if (normalizedDirectoryName === argv1 || normalizedFileName === argv1 || '/' + normalizedFileName === argv1 /* Linux `/usr/local/lib/node_modules/todo/index.js` */) {
     for await (const item of todo()) {
       const text = item.text.length > threshold ? item.text.slice(0, threshold) + '…' : item.text;
       console.log(`./${item.path}:${item.line}`, text);
