@@ -77,8 +77,6 @@ void async function () {
   const normalizedFileName = path.normalize(url.slice('file:///'.length));
   const normalizedDirectoryName = path.dirname(normalizedFileName);
   
-  console.log({ argv1, normalizedFileName, normalizedDirectoryName });
-
   if (normalizedDirectoryName === argv1 || normalizedFileName === argv1 || '/' + normalizedFileName === argv1 /* Linux `/usr/local/lib/node_modules/todo/index.js` */) {
     for await (const item of todo()) {
       const text = item.text.length > threshold ? item.text.slice(0, threshold) + '…' : item.text;
