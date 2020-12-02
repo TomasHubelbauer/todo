@@ -68,3 +68,10 @@ This should enable weeding out any false positives we encounter.
 #### Warn on unused ignore rules (maybe opt-in)
 
 This should highlight ignore rules which are no longer needed.
+
+#### Detech MarkDown checkboxes in numbered lists
+
+```
+1. [ ] Todo
+2. [ ] Todo
+```
