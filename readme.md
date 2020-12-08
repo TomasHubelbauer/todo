@@ -12,9 +12,18 @@ A simple utility to print code to-do comments starting with `// TODO:`.
 
 `todo`
 
+Sample output:
+
+```
+./test.md:10 MarkDown checkbox
+./test.md:20 MarkDown sub-heading of "To-Do" heading
+./test.js:10 JavaScript comment
+./test.ps1:10 PowerShell comment
+```
+
 ## Development
 
-`npm test` or `npm .` to test application invocation.
+`npm test` to run tests or `node .` to run the app.
 
 ### Known Limitations
 
