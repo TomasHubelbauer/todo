@@ -7,8 +7,9 @@ void async function () {
   const expected = [
     './index.js:6 Allow configuring this through the CLI',
     './index.js:15 Skip binary files by text/blob detection or CLI ignore list or both',
-    './index.js:48 Support comments with continuations as per the readme',
-    './index.js:69 Extract out to a `node-cli-call` module for reuse',
+    './index.js:22 Add support for `throw new Error(\'TODO: \')` here',
+    './index.js:49 Support comments with continuations as per the readme',
+    './index.js:70 Extract out to a `node-cli-call` module for reuse',
     './readme.md:26  Recognize multi-line comments where the to-do is not on the first line',
     './readme.md:34  Recognize mutli-line single-line to-do comments',
     './readme.md:37 Do something',
@@ -27,7 +28,7 @@ void async function () {
     './test\\test.md:10  Test',
     './test\\test.ps1:1 Test',
   ];
-
+  
   for await (const item of todo()) {
     const actualItem = './' + item.path + ':' + item.line + ' ' + item.text;
     const expectedItem = expected[actual.length];
