@@ -23,7 +23,7 @@ export default async function* todo() {
       const regex = /^\s*((\/\/ TODO:|# TODO:|- \[ \]|\d+\. \[ \]) (?<text1>.*?)|\/\* TODO: (?<text2>.*?) \*\/)$/;
       const match = regex.exec(line);
       if (match) {
-        yield { path: filePath, line: index + 1, text: match.groups.text1 || match.groups.text2 };
+        yield { path: filePath.replace(/\\/g, '/'), line: index + 1, text: match.groups.text1 || match.groups.text2 };
         continue;
       }
 
