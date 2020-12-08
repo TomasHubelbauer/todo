@@ -16,7 +16,6 @@ export default async function* todo() {
       const line = lines[index];
 
       // Recognize comments which are detectable from a single line 
-      // TODO: Add support for `throw new Error('TODO: ')` here
       const regex = /^\s*((\/\/ TODO:|# TODO:|- \[ \]|\d+\. \[ \]) (?<text1>.*?)|\/\* TODO: (?<text2>.*?) \*\/)$/;
       const match = regex.exec(line);
       if (match) {
