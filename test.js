@@ -20,13 +20,14 @@ void async function () {
     './readme.md:60  Consider adding text/blob differentiation if CLI ignore option isn\'t enough',
     './readme.md:64  Allow ignoring specific lines',
     './readme.md:68  Warn on unused ignore rules (maybe opt-in)',
-    './test\\test.css:1 Test',
-    './test\\test.js:1 Test',
-    './test\\test.js:2 Test',
-    './test\\test.md:2 Test',
-    './test\\test.md:5 Test',
-    './test\\test.md:10  Test',
-    './test\\test.ps1:1 Test',
+    './test/test.css:1 Test',
+    './test/test.js:1 Test',
+    './test/test.js:2 Test',
+    './test/test.md:2 Test',
+    './test/test.md:5 Test',
+    './test/test.md:10  Test',
+    './test/test.md:12 Test',
+    './test/test.ps1:1 Test',
   ];
   
   for await (const item of todo()) {
