@@ -38,14 +38,6 @@ Pass a regex to match paths against as a CLI argument to include/exclude paths:
 
 ### To-Do
 
-#### Recognize multi-line comments where the to-do is not on the first line
-
-```js
-/*
- * TODO: Recognize stuff like this to some degree of usefulness
- */
-```
-
 #### Allow ignoring specific lines
 
 This should enable weeding out any false positives we encounter.

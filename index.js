@@ -8,14 +8,14 @@ const threshold = 60;
 export default async function* todo() {
   for await (const filePath of walk(undefined, process.argv[2])) {
     let level;
+    let multiline;
 
-    // TODO: Skip binary files by text/blob detection or CLI ignore list or both
     const text = await fs.promises.readFile(filePath, 'utf-8');
     const lines = text.split(/\r?\n/g);
     for (let index = 0; index < lines.length; index++) {
       const line = lines[index];
 
-      // Recognize comments which are detectable from a single line
+      // Recognize comments which are detectable from a single line 
       // TODO: Add support for `throw new Error('TODO: ')` here
       const regex = /^\s*((\/\/ TODO:|# TODO:|- \[ \]|\d+\. \[ \]) (?<text1>.*?)|\/\* TODO: (?<text2>.*?) \*\/)$/;
       const match = regex.exec(line);
@@ -43,7 +43,29 @@ export default async function* todo() {
         }
       }
 
-      // TODO: Support comments with continuations as per the readme
+      if (path.extname(filePath) === '.js') {
+        const trim = line.trim();
+        if (multiline) {
+          if (trim === '*/') {
+            multiline = false;
+          }
+          else if (trim.startsWith('* TODO: ')) {
+            yield { path: filePath, line: index + 1, text: trim.slice('* TODO: '.length) };
+          }
+        }
+        else {
+          if (trim === '/*') {
+            multiline = true;
+          }
+          else {
+            const regex = /^throw new Error\(("TODO: (?<text1>.*?)"|'TODO: (?<text2>.*?)')\);?$/;
+            const match = regex.exec(trim);
+            if (match) {
+              yield { path: filePath, line: index + 1, text: match.groups.text1 || match.groups.text2 || '' };
+            }
+          }
+        }
+      }
     }
   }
 }

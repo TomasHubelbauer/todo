@@ -5,16 +5,15 @@ process.on('unhandledRejection', error => { throw error; });
 void async function () {
   const actual = [];
   const expected = [
-    './index.js:12 Skip binary files by text/blob detection or CLI ignore list or both',
     './index.js:19 Add support for `throw new Error(\'TODO: \')` here',
-    './index.js:46 Support comments with continuations as per the readme',
-    './index.js:68 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
-    './readme.md:41 Recognize multi-line comments where the to-do is not on the first line',
-    './readme.md:49 Allow ignoring specific lines',
-    './readme.md:53 Warn on unused ignore rules (maybe opt-in)',
+    './index.js:90 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
+    './readme.md:41 Allow ignoring specific lines',
+    './readme.md:45 Warn on unused ignore rules (maybe opt-in)',
     './test/test.css:1 Test',
     './test/test.js:1 Test',
     './test/test.js:2 Test',
+    './test/test.js:4 Test',
+    './test/test.js:7 Test',
     './test/test.md:2 Test',
     './test/test.md:5 Test',
     './test/test.md:10 Test',
