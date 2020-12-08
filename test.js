@@ -1,5 +1,7 @@
 import todo from './index.js';
 
+process.on('unhandledRejection', error => { throw error; });
+
 void async function () {
   const actual = [];
   const expected = [
