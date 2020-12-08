@@ -9,7 +9,7 @@ void async function () {
     './index.js:15 Skip binary files by text/blob detection or CLI ignore list or both',
     './index.js:22 Add support for `throw new Error(\'TODO: \')` here',
     './index.js:49 Support comments with continuations as per the readme',
-    './index.js:70 Extract out to a `node-cli-call` module for reuse',
+    './index.js:70 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
     './readme.md:26  Recognize multi-line comments where the to-do is not on the first line',
     './readme.md:34  Recognize mutli-line single-line to-do comments',
     './readme.md:37 Do something',
