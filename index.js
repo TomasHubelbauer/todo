@@ -3,13 +3,10 @@
 import fs from 'fs';
 import path from 'path';
 
-// TODO: Allow configuring this through the CLI
-const ignoredNames = ['.git', 'node_modules'];
-
 const threshold = 60;
 
 export default async function* todo() {
-  for await (const filePath of walk()) {
+  for await (const filePath of walk(undefined, process.argv[2])) {
     let level;
 
     // TODO: Skip binary files by text/blob detection or CLI ignore list or both
@@ -30,7 +27,7 @@ export default async function* todo() {
       if (path.extname(filePath) === '.md') {
         if (level) {
           if (line.startsWith('#'.repeat(level + 1) + ' ')) {
-            yield { path: filePath, line: index + 1, text: line.slice(level + 1) };
+            yield { path: filePath, line: index + 1, text: line.slice(level + 1 + ' '.length) };
           }
           else if (line.startsWith('#'.repeat(level) + ' ')) {
             level = undefined;
@@ -51,13 +48,14 @@ export default async function* todo() {
   }
 }
 
-async function* walk(/** @type {string} */ directoryPath = '.') {
+async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '^((?!(\.git|node_modules)).)*$') {
+  const regex = new RegExp(pathRegex);
   for (const entry of await fs.promises.readdir(directoryPath, { withFileTypes: true })) {
-    if (ignoredNames.includes(entry.name)) {
+    const entryPath = path.join(directoryPath, entry.name);
+    if (!entryPath.match(regex)) {
       continue;
     }
 
-    const entryPath = path.join(directoryPath, entry.name);
     if (entry.isFile()) {
       yield entryPath;
     }

@@ -21,6 +21,15 @@ Sample output:
 ./test.ps1:10 PowerShell comment
 ```
 
+Pass a regex to match paths against as a CLI argument to include/exclude paths:
+
+`todo "regex"`
+
+- `^((?!(\.git|node_modules)).)*$`: ignore `.git` and `node_modules` (default)
+- `.md$`: inspect only MarkDown files
+- `.(md|js)$`: inspect only MarkDown and JavaScript files
+- `^((?!(\.git|node_modules)).)*(?!\.(png|jpg|gif))$`: ignore default and images
+
 ## Development
 
 `npm test` to run tests or `node .` to run the app.
@@ -59,16 +68,6 @@ Sample output:
 // This is not a continuation either because the comment is not followed by
 // another to-do immediately so there is a risk of false-positive and we bail
 ```
-
-#### Allow configuring ignored entry names through the CLI
-
-This will enable configuring othen directories than `.git` and `node_modules`
-and will also enable ignoring binary and large files without having to rely on
-text/blob differentiation which is imperfect.
-
-#### Consider adding text/blob differentiation if CLI ignore option isn't enough
-
-I'd rather avoid it but it's not a complete non-option.
 
 #### Allow ignoring specific lines
 
