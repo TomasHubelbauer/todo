@@ -2,7 +2,7 @@
 
 [![](https://github.com/tomashubelbauer/todo/workflows/github-actions/badge.svg)](https://github.com/TomasHubelbauer/todo/actions)
 
-A simple utility to print code to-do comments starting with `// TODO:`.
+A simple utility to print code to-do comments and unchecked MarkDown checkboxes.
 
 ## Installation
 
@@ -11,6 +11,8 @@ A simple utility to print code to-do comments starting with `// TODO:`.
 ## Usage
 
 `todo`
+
+**This will read all files in the directory, including binary files, read on!**
 
 Sample output:
 
@@ -33,11 +35,6 @@ Pass a regex to match paths against as a CLI argument to include/exclude paths:
 ## Development
 
 `npm test` to run tests or `node .` to run the app.
-
-### Known Limitations
-
-- Ignored directories are hard-coded to `.git` and `node_modules`
-- Binary files are being read and search for code todos as well
 
 ### To-Do
 
