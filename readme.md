@@ -10,6 +10,8 @@ A simple utility to print code to-do comments and unchecked MarkDown checkboxes.
 
 ## Usage
 
+### CLI
+
 `todo`
 
 **This will read all files in the directory, including binary files, read on!**
@@ -31,6 +33,25 @@ Pass a regex to match paths against as a CLI argument to include/exclude paths:
 - `.md$`: inspect only MarkDown files
 - `.(md|js)$`: inspect only MarkDown and JavaScript files
 - `^((?!(\.git|node_modules)).)*(?!\.(png|jpg|gif))$`: ignore default and images
+
+### Node
+
+```
+mkdir vendor
+cd vendor
+git submodule add https://github.com/tomashubelbauer/todo
+cd ..
+```
+
+```js
+import todo from './vendor/todo/index.js';
+
+void async function () {
+  for await (const item of todo()) {
+    console.log(item);
+  }
+}()
+```
 
 ## Development
 
