@@ -66,3 +66,7 @@ This should enable weeding out any false positives we encounter.
 #### Warn on unused ignore rules (maybe opt-in)
 
 This should highlight ignore rules which are no longer needed.
+
+#### Reserve the MarkDown checkbox detection only for MarkDown files
+
+At current, it also captures MarkDown fragments in JavaScript which I'm not 100 % is what I want.
