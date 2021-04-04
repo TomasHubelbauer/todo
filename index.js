@@ -5,8 +5,8 @@ import path from 'path';
 
 const threshold = 60;
 
-export default async function* todo() {
-  for await (const filePath of walk(undefined, process.argv[2])) {
+export default async function* todo(directoryPath = undefined, pathRegex = process.argv[2]) {
+  for await (const filePath of walk(directoryPath, pathRegex)) {
     let level;
     let multiline;
 
