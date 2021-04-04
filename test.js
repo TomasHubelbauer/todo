@@ -6,8 +6,8 @@ void async function () {
   const actual = [];
   const expected = [
     './index.js:89 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
-    './readme.md:41 Allow ignoring specific lines',
-    './readme.md:45 Warn on unused ignore rules (maybe opt-in)',
+    './readme.md:62 Allow ignoring specific lines',
+    './readme.md:66 Warn on unused ignore rules (maybe opt-in)',
     './test/test.css:1 Test',
     './test/test.js:1 Test',
     './test/test.js:2 Test',
