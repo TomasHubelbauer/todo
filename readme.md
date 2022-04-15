@@ -46,11 +46,9 @@ cd ..
 ```js
 import todo from './vendor/todo/index.js';
 
-void async function () {
-  for await (const item of todo()) {
-    console.log(item);
-  }
-}()
+for await (const item of todo()) {
+  console.log(item);
+}
 ```
 
 ## Development
