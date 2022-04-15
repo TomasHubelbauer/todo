@@ -4,8 +4,10 @@ import fs from 'fs';
 import path from 'path';
 
 const threshold = 60;
+const selfRun = import.meta.url.endsWith(process.argv[1]);
+const defaultRegex = '!(\.git$|node_modules)';
 
-export default async function* todo(directoryPath = undefined, pathRegex = process.argv[2], log = false) {
+export default async function* todo(directoryPath = undefined, pathRegex = selfRun ? process.argv[2] : defaultRegex, log = false) {
   log && console.log('todo', { directoryPath, pathRegex });
 
   for await (const filePath of walk(directoryPath, pathRegex, log)) {
@@ -71,7 +73,7 @@ export default async function* todo(directoryPath = undefined, pathRegex = proce
   }
 }
 
-async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '!(\.git$|node_modules)', log = false) {
+async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = defaultRegex, log = false) {
   log && console.log('walk', { directoryPath, pathRegex });
 
   // Determine whether the regex represents the opposite
@@ -96,17 +98,7 @@ async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '!(\
   }
 }
 
-// TODO: Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716
-// TODO: Find out if this can be replaced with `import.meta.url.endsWith(process.argv[1])`
-const url = import.meta.url;
-
-// Resolve symlink `/usr/local/bin/todo` to `/usr/local/lib/node_modules/todo/index.js` on Linux
-// Trim off leading `/` on Linux (`file:///usr/…` - `/` is cut from URL but present in `argv[1]`)
-const argv1 = path.normalize(await fs.promises.realpath(process.argv[1])).replace(/^\//, '');
-const normalizedFileName = path.normalize(url.slice('file:///'.length));
-const normalizedDirectoryName = path.dirname(normalizedFileName);
-
-if (normalizedDirectoryName === argv1 || normalizedFileName === argv1 || '/' + normalizedFileName === argv1 /* Linux `/usr/local/lib/node_modules/todo/index.js` */) {
+if (selfRun) {
   for await (const item of todo()) {
     const text = item.text.length > threshold ? item.text.slice(0, threshold) + '…' : item.text;
     console.log(`./${item.path}:${item.line}`, text);
