@@ -88,7 +88,7 @@ async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '^((
     }
     else if (entry.isDirectory()) {
       log && console.log(entryPath, 'nested');
-      yield* walk(entryPath);
+      yield* walk(entryPath, pathRegex, log);
     }
   }
 }
