@@ -6,6 +6,8 @@ import path from 'path';
 const threshold = 60;
 
 export default async function* todo(directoryPath = undefined, pathRegex = process.argv[2], log = false) {
+  log && console.log('todo', { directoryPath, pathRegex });
+
   for await (const filePath of walk(directoryPath, pathRegex)) {
     log && console.log(filePath);
 
@@ -71,18 +73,23 @@ export default async function* todo(directoryPath = undefined, pathRegex = proce
   }
 }
 
-async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '^((?!(\.git|node_modules)).)*$') {
+async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '^((?!(\.git|node_modules)).)*$', log = false) {
+  log && console.log('walk', { directoryPath, pathRegex });
+
   const regex = new RegExp(pathRegex);
   for (const entry of await fs.promises.readdir(directoryPath, { withFileTypes: true })) {
     const entryPath = path.join(directoryPath, entry.name);
     if (!entryPath.match(regex)) {
+      log && console.log(entryPath, 'skipped');
       continue;
     }
 
     if (entry.isFile()) {
+      log && console.log(entryPath, 'returned');
       yield entryPath;
     }
     else if (entry.isDirectory()) {
+      log && console.log(entryPath, 'nested');
       yield* walk(entryPath);
     }
   }
