@@ -71,13 +71,19 @@ export default async function* todo(directoryPath = undefined, pathRegex = proce
   }
 }
 
-async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '^((?!(\.git|node_modules)).)*$', log = false) {
+async function* walk(/** @type {string} */ directoryPath = '.', pathRegex = '!(\.git|node_modules)', log = false) {
   log && console.log('walk', { directoryPath, pathRegex });
+
+  // Determine whether the regex represents the opposite
+  let bang = pathRegex[0] === '!';
+  if (bang) {
+    pathRegex = pathRegex.slice(1);
+  }
 
   const regex = new RegExp(pathRegex);
   for (const entry of await fs.promises.readdir(directoryPath, { withFileTypes: true })) {
     const entryPath = path.join(directoryPath, entry.name);
-    if (!entryPath.match(regex)) {
+    if (bang ? !entryPath.match(regex) : entryPath.match(regex)) {
       log && console.log(entryPath, 'skipped');
       continue;
     }
