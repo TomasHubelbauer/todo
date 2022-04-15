@@ -2,8 +2,8 @@ import todo from './index.js';
 
 const actual = [];
 const expected = [
-  './index.js:98 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
-  './index.js:99 Find out if this can be replaced with `import.meta.url.endsWith(process.argv[1])`',
+  './index.js:96 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
+  './index.js:97 Find out if this can be replaced with `import.meta.url.endsWith(process.argv[1])`',
   './readme.md:60 Allow ignoring specific lines',
   './readme.md:64 Warn on unused ignore rules (maybe opt-in)',
   './readme.md:68 Reserve the MarkDown checkbox detection only for MarkDown files',
