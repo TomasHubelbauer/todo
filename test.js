@@ -15,6 +15,7 @@ const expected = [
   './test/test.md:10 Test',
   './test/test.md:12 Test',
   './test/test.ps1:1 Test',
+  './test/test.yml:1 Test',
 ];
 
 const errors = [];
