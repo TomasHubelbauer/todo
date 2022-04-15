@@ -1,6 +1,7 @@
 # To-Do
 
-[![](https://github.com/tomashubelbauer/todo/workflows/github-actions/badge.svg)](https://github.com/TomasHubelbauer/todo/actions)
+[svg]: https://github.com/tomashubelbauer/todo/workflows/github-actions/badge.svg
+[![][svg]](https://github.com/TomasHubelbauer/todo/actions)
 
 A simple utility to print code to-do comments and unchecked MarkDown checkboxes.
 
@@ -25,26 +26,27 @@ Sample output:
 ./test.ps1:10 PowerShell comment
 ```
 
-Pass a regex to match paths against as a CLI argument to include/exclude paths:
+Pass a regex to match paths against as a CLI argument. Prefix with a bang (`!`)
+to reverse the logic.
 
-`todo "regex"`
+`todo "regex"` or `todo "!regex"`
 
-- `^((?!(\.git|node_modules)).)*$`: ignore `.git` and `node_modules` (default)
+- `!(\.git$|node_modules)`: ignore `.git` and `node_modules` (default)
 - `.md$`: inspect only MarkDown files
 - `.(md|js)$`: inspect only MarkDown and JavaScript files
-- `^((?!(\.git|node_modules)).)*(?!\.(png|jpg|gif))$`: ignore default and images
+- `!(\.git$|node_modules|png$|jpg$|gif$)`: ignore default and images
+
+Escape the bang if you want to use a regex starting with one. This trade-off has
+been made to not force using negative lookahead syntax which is too confusing.
 
 ### Node
 
 ```
-mkdir vendor
-cd vendor
 git submodule add https://github.com/tomashubelbauer/todo
-cd ..
 ```
 
 ```js
-import todo from './vendor/todo/index.js';
+import todo from './todo/index.js';
 
 for await (const item of todo()) {
   console.log(item);
@@ -67,4 +69,5 @@ This should highlight ignore rules which are no longer needed.
 
 #### Reserve the MarkDown checkbox detection only for MarkDown files
 
-At current, it also captures MarkDown fragments in JavaScript which I'm not 100 % is what I want.
+At current, it also captures MarkDown fragments in JavaScript which I'm not 100%
+sure is what I want.

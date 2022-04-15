@@ -2,8 +2,8 @@ import todo from './index.js';
 
 const actual = [];
 const expected = [
-  './index.js:96 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
-  './index.js:97 Find out if this can be replaced with `import.meta.url.endsWith(process.argv[1])`',
+  './index.js:99 Extract out to a `node-cli-call` module for reuse - related: https://stackoverflow.com/a/60309682/2715716',
+  './index.js:100 Find out if this can be replaced with `import.meta.url.endsWith(process.argv[1])`',
   './readme.md:60 Allow ignoring specific lines',
   './readme.md:64 Warn on unused ignore rules (maybe opt-in)',
   './readme.md:68 Reserve the MarkDown checkbox detection only for MarkDown files',
@@ -19,15 +19,17 @@ const expected = [
   './test/test.ps1:1 Test',
 ];
 
-for await (const item of todo()) {
+const errors = [];
+
+for await (const item of todo(undefined, undefined, true)) {
   const actualItem = './' + item.path + ':' + item.line + ' ' + item.text;
   const expectedItem = expected[actual.length];
   if (actualItem !== expectedItem) {
     if (expectedItem === undefined) {
-      throw new Error(`Got an unexpected extra to-do "${actualItem}".`);
+      errors.push(`Got an unexpected extra to-do "${actualItem}".`);
     }
 
-    throw new Error(`#${actual.length}: Expected "${expectedItem}", got "${actualItem}".`);
+    errors.push(`#${actual.length}: Expected "${expectedItem}", got "${actualItem}".`);
   }
 
   actual.push(actualItem);
@@ -36,6 +38,10 @@ for await (const item of todo()) {
 if (actual.length !== expected.length) {
   throw new Error(`Expected ${expected.length} todos, got ${actual.length}.`);
 }
+else if (errors.length === 0) {
+  console.log('All', actual.length, 'passed');
+}
 else {
-  console.log('All passed');
+  console.log(errors);
+  throw new Error(`Got ${errors.length} errors.`);
 }
