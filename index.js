@@ -8,9 +8,7 @@ const threshold = 60;
 export default async function* todo(directoryPath = undefined, pathRegex = process.argv[2], log = false) {
   log && console.log('todo', { directoryPath, pathRegex });
 
-  for await (const filePath of walk(directoryPath, pathRegex)) {
-    log && console.log(filePath);
-
+  for await (const filePath of walk(directoryPath, pathRegex, log)) {
     let level;
     let multiline;
 
